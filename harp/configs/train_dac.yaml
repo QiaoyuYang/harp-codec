@@ -1,0 +1,65 @@
+data:
+  dataset_type: "Jamendo"
+  dataset_root: "/path/to/jamendo"   # directory of audio files for training/validation
+  sample_rate: 44100
+  segment_length: 1.0
+
+# Path to a trained checkpoint, used by inference when --ckpt is not passed
+checkpoint_path: null
+
+model:
+  dac:
+    sample_rate: 44100
+    encoder_dim: 64
+    encoder_rates: [2, 4, 8, 8]
+    decoder_dim: 1536
+    decoder_rates: [8, 8, 4, 2]
+    # Quantization
+    n_codebooks: 9
+    codebook_size: 1024
+    codebook_dim: 8
+    quantizer_dropout: 0.5
+  discriminator:
+    sample_rate: 44100
+    rates: []
+    periods: [2, 3, 5, 7, 11]
+    fft_sizes: [2048, 1024, 512]
+    bands:
+      - [0.0, 0.1]
+      - [0.1, 0.25]
+      - [0.25, 0.5]
+      - [0.5, 0.75]
+      - [0.75, 1.0]
+
+losses:
+  stft_loss:
+    window_lengths: [2048, 512]
+  mel_loss:
+    n_mels: [5, 10, 20, 40, 80, 160, 320]
+    window_lengths: [32, 64, 128, 256, 512, 1024, 2048]
+    mel_fmin: [0, 0, 0, 0, 0, 0, 0]
+    mel_fmax: [null, null, null, null, null, null, null]
+    pow: 1.0
+    clamp_eps: 1.0e-5
+    mag_weight: 0.0
+  lambdas:
+    stft/loss: 1.0
+    mel/loss: 15.0
+    adv/gen_loss: 1.0
+    adv/feat_loss: 2.0
+    vq/commitment_loss: 0.25
+    vq/codebook_loss: 1.0
+
+optimizer:
+  lr: 0.0001
+  betas: [0.8, 0.99]
+  weight_decay: 0.01
+  gamma: 0.999996
+
+train:
+  batch_size: 8
+  num_workers: 8
+  max_epochs: 100
+  num_nodes: 1
+  devices: 1
+  logdir: "./exp_logs"

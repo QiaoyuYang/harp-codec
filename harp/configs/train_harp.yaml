@@ -1,0 +1,123 @@
+# =============================================================================
+# HARP Training Configuration
+# Hyperparameters following the paper methodology
+# =============================================================================
+
+data:
+  dataset_type: "Jamendo"
+  dataset_root: "/path/to/jamendo"   # directory of audio files for training/validation
+  sample_rate: 44100
+  segment_length: 1.0  # 1-second segments (paper Section 5.1)
+
+# Path to a trained checkpoint, used by inference when --ckpt is not passed
+checkpoint_path: null
+
+# =============================================================================
+# Model Configuration
+# =============================================================================
+model:
+  # DAC backbone (paper Section 5.1)
+  dac:
+    sample_rate: 44100
+    encoder_dim: 64
+    encoder_rates: [2, 4, 8, 8]      # Total: 512x downsampling -> ~86 Hz frame rate
+    decoder_dim: 1536
+    decoder_rates: [8, 8, 4, 2]
+    n_codebooks: 9                    # 9 codebooks total
+    codebook_size: 1024               # 10 bits per codebook
+    codebook_dim: 8
+    quantizer_dropout: 0.0            # Handled by group dropout instead
+
+  # HARP band prioritization (paper Section 4)
+  band_priority:
+    n_mels: 80
+    n_fft: 1024
+    hop_length: 256                   # Finer resolution for band supervision
+
+    # 4 groups with 3-2-2-2 distribution (9 codebooks total)
+    # Group 0: Bass (~0-1 kHz)      - 3 codebooks (most perceptually important)
+    # Group 1: Low-mid (~1-4 kHz)   - 2 codebooks
+    # Group 2: High-mid (~4-10 kHz) - 2 codebooks
+    # Group 3: Treble (~10-22 kHz)  - 2 codebooks
+    stage_groups: [[0, 3], [3, 5], [5, 7], [7, 9]]
+
+    learnable_bands: true             # Learn mu_k, sigma_k (paper Section 4.5)
+    baseline: 0.3                     # beta in Eq. 4 (paper Section 4.5)
+
+    # Group dropout for bitrate robustness (paper Section 4.7)
+    group_dropout_prob: 0.5           # p_drop
+    min_groups: 1                     # Always keep bass group
+
+  # Discriminator (paper Appendix A.1)
+  discriminator:
+    sample_rate: 44100
+    rates: []
+    periods: [2, 3, 5, 7, 11]         # Multi-period discriminator
+    fft_sizes: [2048, 1024, 512]      # Multi-scale STFT discriminator
+    bands:
+      - [0.0, 0.1]
+      - [0.1, 0.25]
+      - [0.25, 0.5]
+      - [0.5, 0.75]
+      - [0.75, 1.0]
+
+# =============================================================================
+# Loss Configuration (paper Appendix A.2)
+# =============================================================================
+losses:
+  # Multi-resolution STFT loss
+  stft_loss:
+    window_lengths: [2048, 512]
+
+  # Multi-scale mel loss
+  mel_loss:
+    n_mels: [5, 10, 20, 40, 80, 160, 320]
+    window_lengths: [32, 64, 128, 256, 512, 1024, 2048]
+    mel_fmin: [0, 0, 0, 0, 0, 0, 0]
+    mel_fmax: [null, null, null, null, null, null, null]
+    pow: 1.0
+    clamp_eps: 1.0e-5
+    mag_weight: 0.0
+
+  # Loss weights (paper Appendix A.2)
+  lambdas:
+    stft/loss: 1.0                    # lambda_stft
+    mel/loss: 15.0                    # lambda_mel
+    adv/gen_loss: 1.0                 # lambda_adv
+    adv/feat_loss: 5.0                # lambda_fm (feature matching)
+    vq/commitment_loss: 0.25          # lambda_vq
+    vq/codebook_loss: 1.0             # Codebook loss weight
+    band/total: 5.0                   # lambda_band (paper Section 4.6)
+
+# =============================================================================
+# Optimizer Configuration (paper Appendix A.2)
+# =============================================================================
+optimizer:
+  lr: 1.0e-4                          # Generator learning rate
+  betas: [0.8, 0.99]                  # AdamW betas
+  weight_decay: 0.01
+  gamma: 0.999996                     # Exponential LR decay
+
+# =============================================================================
+# Training Configuration
+# =============================================================================
+train:
+  batch_size: 16                      # Per GPU
+  num_workers: 16
+  max_epochs: 100                     # ~500k steps (paper Section 5.1)
+  num_nodes: 1
+  devices: 1
+  logdir: "./exp_logs"
+
+  # Gradient clipping
+  grad_clip_gen: 1000.0               # Generator gradient clip
+  grad_clip_disc: 10.0                # Discriminator gradient clip
+
+# =============================================================================
+# Expected Bitrate Tiers (for reference)
+# =============================================================================
+# With 9 codebooks @ 1024 entries (10 bits) and ~86 Hz frame rate:
+#   1 group (3 codebooks):  ~2.6 kbps  (bass only)
+#   2 groups (5 codebooks): ~4.3 kbps  (bass + low-mid)
+#   3 groups (7 codebooks): ~6.0 kbps  (bass + low-mid + high-mid)
+#   4 groups (9 codebooks): ~7.7 kbps  (full rate)

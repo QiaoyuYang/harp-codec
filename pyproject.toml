@@ -1,0 +1,43 @@
+[project]
+name = "harp-codec"
+version = "0.1.0"
+description = "HARP: Harmonic-Aware Residual Partitioning for Neural Audio Codecs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Qiaoyu Yang" }]
+dependencies = [
+    # torch/torchaudio/torchcodec are pulled from the CUDA 12.6 (cu126) index
+    # configured below, for broad NVIDIA driver compatibility (R525+).
+    "torch==2.13.0",
+    "torchaudio==2.11.0",
+    "torchcodec==0.15.0",
+    "numpy>=1.26.4",
+    "pyyaml>=6.0.3",
+    "pandas>=2.3.3",
+    "einops>=0.8.1",
+    "lightning>=2.6.0",
+    "tqdm>=4.66.0",
+    "descript-audiotools>=0.7.2",
+    # descript-audiotools -> librosa pulls in numba. Without a floor, the
+    # resolver picks a very old numba (0.53.x) whose llvmlite has no Python 3.12
+    # wheel and fails to build. Require a modern numba that ships 3.12 wheels.
+    "numba>=0.60",
+]
+
+[tool.uv]
+# This is an application run via `python entry.py`, not an installable package.
+package = false
+
+# Pull only the torch packages from the PyTorch CUDA 12.6 index; everything else
+# resolves from PyPI. `explicit = true` means the index is used solely for the
+# packages that name it in [tool.uv.sources] — no global index-strategy change.
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchaudio = { index = "pytorch-cu126" }
+torchcodec = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

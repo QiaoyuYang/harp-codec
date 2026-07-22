@@ -1,0 +1,158 @@
+{
+  "tiers": [
+    {
+      "key": "ref",
+      "label": "Reference"
+    },
+    {
+      "key": "harp43",
+      "label": "HARP · 4.3 kbps"
+    },
+    {
+      "key": "dac43",
+      "label": "DAC · 4.3 kbps"
+    },
+    {
+      "key": "harp77",
+      "label": "HARP · 7.7 kbps"
+    },
+    {
+      "key": "dac77",
+      "label": "DAC · 7.7 kbps"
+    }
+  ],
+  "samples": [
+    {
+      "name": "Music — Reggae",
+      "dir": "trial01_music_reggae",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Music — Blues",
+      "dir": "trial02_music_blues",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Music — Indian",
+      "dir": "trial03_music_indian",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Music — Metal",
+      "dir": "trial04_music_metal",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Speech — Male 1",
+      "dir": "trial05_speech_male1",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Speech — Male 2",
+      "dir": "trial06_speech_male2",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Speech — Female 1",
+      "dir": "trial07_speech_female1",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "Speech — Female 2",
+      "dir": "trial08_speech_female2",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "General Audio — Environmental",
+      "dir": "trial09_audio_environmental",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "General Audio — Mechanical",
+      "dir": "trial10_audio_mechanical",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "General Audio — NSV",
+      "dir": "trial11_audio_nsv",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    },
+    {
+      "name": "General Audio — Mixed",
+      "dir": "trial12_audio_mixed",
+      "files": {
+        "ref": "reference.wav",
+        "harp43": "harp_4.3kbps.wav",
+        "dac43": "dac_4.3kbps.wav",
+        "harp77": "harp_7.7kbps.wav",
+        "dac77": "dac_7.7kbps.wav"
+      }
+    }
+  ]
+}

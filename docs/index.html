@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HARP: Harmonic-Aware Residual Partitioning for Neural Audio Codecs</title>
+  <meta name="description" content="Audio samples for HARP, a neural audio codec using harmonic-aware residual partitioning for variable-bitrate compression (Interspeech 2026, Oral).">
+  <!-- Link preview (Open Graph) -->
+  <meta property="og:title" content="HARP: Harmonic-Aware Residual Partitioning for Neural Audio Codecs">
+  <meta property="og:description" content="Audio samples and demo for HARP (Interspeech 2026, Oral).">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <img class="hero-img" src="assets/hero.webp"
+         alt="A harp with sound waves streaming from its strings; highlighted orange strands represent HARP's prioritized frequency bands">
+    <h1>HARP</h1>
+    <p class="subtitle">Harmonic-Aware Residual Partitioning for Neural Audio Codecs</p>
+    <p class="venue">Interspeech 2026 &middot; Oral</p>
+    <p class="authors">
+      Qiaoyu Yang &middot; Lixing He &middot; Binyue Deng &middot; Weifeng Zhao
+    </p>
+    <!-- TODO: add affiliation(s) here -->
+    <nav class="links">
+      <a href="https://arxiv.org/abs/2607.16657" class="btn">📄 Paper</a>
+      <a href="https://github.com/QiaoyuYang/harp-codec" class="btn">💻 Code</a>
+      <a href="https://huggingface.co/KelvinYang/harp-codec" class="btn">🤗 Model</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <!-- TODO: replace with the final paper abstract -->
+      <p>
+        HARP is a neural audio codec that partitions residual vector quantization
+        across harmonically meaningful frequency bands. A harmonic-aware
+        partitioning distributes codebook capacity over perceptually important
+        bands, so a single model serves multiple bitrates by decoding a growing
+        number of codebook groups. This page presents audio reconstructions across
+        HARP's bitrate tiers.
+      </p>
+    </section>
+
+    <section>
+      <h2>Audio samples</h2>
+      <p class="hint">
+        Each sample shows the reference recording and HARP vs. the DAC baseline
+        at 4.3 and 7.7 kbps.
+      </p>
+      <div id="samples">
+        <p class="empty">
+          No samples yet. Generate them with
+          <code>python scripts/build_demo.py your_audio/*.wav</code>,
+          then commit <code>docs/audio/</code>.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bitrate tiers</h2>
+      <table class="tiers">
+        <thead><tr><th>Groups</th><th>Codebooks</th><th>Bitrate</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>3</td><td>~2.6 kbps</td></tr>
+          <tr><td>2</td><td>5</td><td>~4.3 kbps</td></tr>
+          <tr><td>3</td><td>7</td><td>~6.0 kbps</td></tr>
+          <tr><td>4</td><td>9</td><td>~7.7 kbps (full)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Citation</h2>
+      <pre class="bibtex">@inproceedings{harp2026,
+  title     = {HARP: Harmonic-Aware Residual Partitioning for Neural Audio Codecs},
+  author    = {Yang, Qiaoyu and He, Lixing and Deng, Binyue and Zhao, Weifeng},
+  booktitle = {Interspeech},
+  year      = {2026}
+}</pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 &middot; <a href="https://github.com/QiaoyuYang/harp-codec">QiaoyuYang/harp-codec</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
